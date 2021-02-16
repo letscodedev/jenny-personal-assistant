@@ -1,0 +1,12 @@
+.Home {
+    padding: 2rem 0;
+    background-color: #eff3f7;
+    height: 100vh;
+    width: 100%;
+    font-family: 'Montserrat';
+}
+
+.box__blue {
+    background-color: #0040ff;
+    color: #fff;
+}
