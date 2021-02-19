@@ -1,9 +1,11 @@
-import React from 'react';
+import React from 'react'
 import firebase from '../config'
 import './Home.css'
-import { SIGN_IN, SIGN_OUT } from '../reducers/auth';
+import { SIGN_IN, SIGN_OUT } from '../reducers/auth'
 import { useSelector, useDispatch } from 'react-redux'
 import { Redirect, Link } from "react-router-dom";
+
+import Chatbot from './Chatbot/Chatbot'
 
 function Home() {
     const dispatch = useDispatch();
@@ -21,7 +23,7 @@ function Home() {
                 <>
                 <div className="container">
                     <div className="row">
-                        <div className="col-md-4">
+                        <div className="col-md-3">
                             <div className="box box__blue">
                                 <h3>Devarsh Panchal</h3>
                             </div>
@@ -29,8 +31,10 @@ function Home() {
                                 <h3>Devarsh Panchal</h3>
                             </div>
                         </div>
-                        <div className="col-md-4">
-                            <div className="box"></div>
+                        <div className="col-md-5">
+                            <div className="box">
+                                <Chatbot />
+                            </div>
                         </div>
                         <div className="col-md-4">
                             <div className="box">

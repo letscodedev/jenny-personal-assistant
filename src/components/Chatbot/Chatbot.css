@@ -1,0 +1,8 @@
+.message__input {
+    padding: 7px 12px;
+    width: 100%;
+    background-color: #f5f6fa;
+    border: none;
+    border-radius: 16px;
+    outline: 0;
+}
