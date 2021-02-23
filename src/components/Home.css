@@ -10,3 +10,8 @@
     background-color: #0040ff;
     color: #fff;
 }
+
+.block {
+    display: block;
+    height: calc(100vh - 4rem);
+}

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-// import axios from "axios";
+import axios from "axios";
 import './Chatbot.css';
 
 import Messages from './Messages'
@@ -20,27 +20,25 @@ const MessageBox = [
 ]
 
 function Chatbot() {
-	const [responses, setResponses] = useState(MessageBox);
+	const [responses, setResponses] = useState([]);
     const [currentMessage, setCurrentMessage] = useState("");
 
     const handleMessageSubmit = message => {
         const data = {
           message
         };
-    
-        // axios
-        //   .post("YOUR_BACKEND_URL", data)
-        //   .then(response => {
-        //     const responseData = {
-        //       text: response.data["message"]["fulfillmentText"] != "" ? response.data["message"]["fulfillmentText"] : "Sorry, I can't get it. Can you please repeat once?",
-        //       isBot: true
-        //     };
-    
-        //     setResponses(responses => [...responses, responseData]);
-        //   })
-        //   .catch(error => {
-        //     console.log("Error: ", error);
-        // });
+        axios
+          .post("http://localhost:5000/send-msg", data)
+          .then(response => {
+            const responseData = {
+              text: response.data.reply,
+              sender: 'Bot'
+            };
+            setResponses(responses => [...responses, responseData]);
+          })
+          .catch(error => {
+            console.log("Error: ", error);
+        });
     };
 
     const handleMessageChange = event => {

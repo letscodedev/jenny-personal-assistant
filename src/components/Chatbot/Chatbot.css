@@ -1,4 +1,11 @@
+.Chatbox {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    position: absolute;
+}
 .message__input {
+    position: relative;
     padding: 7px 12px;
     width: 100%;
     background-color: #f5f6fa;
