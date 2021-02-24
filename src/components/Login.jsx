@@ -43,11 +43,11 @@ function Login() {
 						<h3 class="box__title">Login</h3>
 						<div className="form-group">
 							<label>Email address</label>
-							<input type="email" className="form-control" placeholder="devarsh@gmail.com" onChange={event => onChangeHandler(event)}/>
+							<input type="email" name="email" className="form-control" placeholder="devarsh@gmail.com" onChange={event => onChangeHandler(event)}/>
 						</div>
 						<div className="form-group">
 							<label>Password</label>
-							<input type="password" className="form-control" placeholder="*******" onChange={event => onChangeHandler(event)}/>
+							<input type="password" name="password" className="form-control" placeholder="*******" onChange={event => onChangeHandler(event)}/>
 						</div>
 						<div className="form-group">
 							<div className="custom-control custom-checkbox">

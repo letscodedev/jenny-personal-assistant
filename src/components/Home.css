@@ -15,3 +15,38 @@
     display: block;
     height: calc(100vh - 4rem);
 }
+
+.smallBox__blue {
+    background-color: #0040ff;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    padding: 1rem 0;
+}
+
+.smallBox__blue:hover {
+    cursor: pointer;
+}
+
+.smallBox__blue i {
+    font-size: 1.5rem;
+}
+
+.buttons {
+    background-color: transparent;
+    border: 0;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.twitter__title {
+    margin-bottom: 1rem;
+}
+
+.twitter__title h4 {
+    font-weight: 700;
+}

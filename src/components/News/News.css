@@ -1,0 +1,33 @@
+.News {
+    max-height: 275px;
+    padding-right: 5px;
+    overflow-y: auto;
+}
+
+.News a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.News a:hover {
+    color: #0040ff;
+    transition: .6s color;
+}
+
+.News::-webkit-scrollbar {
+    width: 5px;
+    border-radius: 5px;
+}
+
+.news__marginbtm {
+    margin-bottom: 1rem;
+}
+
+.news__marginbtm p {
+    margin-bottom: .25rem;
+}
+
+.News::-webkit-scrollbar-thumb {
+    background-color: #0040ff;
+    outline: 1px solid #eff3f7;
+}

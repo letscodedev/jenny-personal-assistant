@@ -24,7 +24,7 @@
 }
 
 .Messages {
-    overflow: auto;
+    overflow-y: auto;
     height: calc(100vh - 10rem);
     display: flex;
     justify-content: flex-end;

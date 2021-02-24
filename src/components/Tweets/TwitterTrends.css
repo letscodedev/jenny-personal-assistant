@@ -1,0 +1,26 @@
+.TwitterTrends {
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.trend p {
+    margin-bottom: .25rem;
+}
+
+.trend__numTweets {
+    font-size: .85rem;
+}
+
+.trend {
+    margin-bottom: 1rem;
+}
+
+.TwitterTrends::-webkit-scrollbar {
+    width: 5px;
+    border-radius: 5px;
+}
+
+.TwitterTrends::-webkit-scrollbar-thumb {
+    background-color: #0040ff;
+    outline: 1px solid #eff3f7;
+}

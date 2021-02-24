@@ -3,9 +3,12 @@ import firebase from '../config'
 import './Home.css'
 import { SIGN_IN, SIGN_OUT } from '../reducers/auth'
 import { useSelector, useDispatch } from 'react-redux'
-import { Redirect, Link } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom"
 
 import Chatbot from './Chatbot/Chatbot'
+import TwitterTrends from './Tweets/TwitterTrends'
+import Weather from './Weather/Weather'
+import News from './News/News'
 
 function Home() {
     const dispatch = useDispatch();
@@ -23,26 +26,51 @@ function Home() {
                 <>
                 <div className="container">
                     <div className="row">
-                        <div className="col-md-3">
+                        <div className="col-md-4">
                             <div className="box box__blue">
                                 <h3>Devarsh Panchal</h3>
                             </div>
-                            <div className="box box__blue" style={{marginTop: '1rem'}}>
-                                <h3>Devarsh Panchal</h3>
+                            <div className="box" style={{marginTop: '1rem'}}>
+                                <div className="twitter__title">
+                                    <h4><i class="far fa-newspaper"></i> News</h4>
+                                    <News />
+                                </div>
+                            </div>
+                            <div style={{marginTop: '1rem'}}>
+                                <div className="row">
+                                    <div className="col-md-4">
+                                        <div className="smallBox__blue">
+                                            <button className="buttons" onClick={() => SignOut()}><i class="fas fa-cog"></i></button>
+                                        </div>
+                                    </div>
+                                    <div className="col-md-4">
+                                        <div className="smallBox__blue">
+                                            <button className="buttons" onClick={() => SignOut()}><i class="fas fa-cog"></i></button>
+                                        </div>
+                                    </div>
+                                    <div className="col-md-4">
+                                        <div className="smallBox__blue">
+                                            <button className="buttons" onClick={() => SignOut()}><i class="fas fa-sign-out-alt"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div className="col-md-5">
+                        <div className="col-md-4">
                             <div className="box block">
-                                    <Chatbot />
+                                <Chatbot />
                             </div>
                         </div>
                         <div className="col-md-4">
                             <div className="box">
-                                <button className="btn btn-primary" onClick={() => SignOut()}>Logout</button>
+                                <Weather />
                             </div>
-                            <div className="box" style={{marginTop: '1rem'}}></div>
-                            <div className="box" style={{marginTop: '1rem'}}></div>
-                            <div className="box" style={{marginTop: '1rem'}}></div>
+                            <div className="box" style={{marginTop: '1rem'}}>
+                                <div className="twitter__title">
+                                    <h4><i class="fab fa-twitter"></i> Twitter Trending</h4>
+                                </div>
+                                <TwitterTrends />
+                            </div>
                         </div>
                     </div>
                 </div>
