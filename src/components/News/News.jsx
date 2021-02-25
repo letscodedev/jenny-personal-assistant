@@ -46,7 +46,7 @@ function News() {
 
     const fetchData = () => {
         axios
-            .get("http://localhost:5000/" + "API_ENDPOINT") // API CALL 
+            .get("http://localhost:5000/news") // API CALL 
             .then(response => {
                 setNews(response);
             })
@@ -59,13 +59,16 @@ function News() {
 		<div className="News">
             {console.log(news)}
             {
-                news.map(n => {
-                    return (
-                        <div className="news__marginbtm">
-                            <a href={n.URL} target="_blank"><p>{n.News}</p></a>
-                        </div>
-                    )
-                })
+                news.length > 1 ? 
+                    news.map(n => {
+                        return (
+                            <div className="news__marginbtm">
+                                <a href={n.URL} target="_blank"><p>{n.News}</p></a>
+                            </div>
+                        )
+                    })
+                    :
+                    setNews(sampleData)
             }
 		</div>
 	);

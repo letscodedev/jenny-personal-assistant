@@ -31,7 +31,7 @@ const sampleData = [
 ]
 
 function TwitterTrends() {
-    const [trends, setTrends] = useState(sampleData);
+    const [trends, setTrends] = useState([]);
 
     useEffect(() => {
         fetchData();
@@ -39,9 +39,10 @@ function TwitterTrends() {
 
     const fetchData = () => {
         axios
-          .get("http://localhost:5000/API_ENDPOINT") // API CALL 
+          .get("http://localhost:5000/trends") // API CALL 
           .then(response => {
-            setTrends(response);
+              console.log('Data Received!')
+            setTrends(response.data);
           })
           .catch(error => {
             console.log("Error: ", error);
@@ -50,16 +51,18 @@ function TwitterTrends() {
 
 	return (
 		<div className="TwitterTrends">
-            
             {
-                trends.map(trend => {
-                    return (
-                        <div className="trend">
-                            <p>{trend.Trending}. <b>{trend.Tweet}</b></p>
-                            <p className="trend__numTweets">{trend.NumberOfTweets} Tweets</p>
-                        </div>
-                    )
-                })
+                trends.length > 1 ? 
+                    trends?.map((trend, index) => {
+                        console.log(trend)
+                        return (
+                            <div className="trend">
+                                <p>{index + 1}. <a href={trend.url}><b>{trend.tweet}</b></a></p>
+                                <p className="trend__numTweets">{trend.count}</p>
+                            </div>
+                        )
+                    })
+                : <p>Loading</p>
             }
 		</div>
 	);

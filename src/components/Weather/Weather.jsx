@@ -11,10 +11,10 @@ function Weather() {
 
     const fetchData = () => {
         axios
-            .get("http://localhost:5000/API_ENDPOINT") // API CALL 
+            .get("http://localhost:5000/weather") // API CALL 
             .then(response => {
-                console.log(response)
-                setWeather(response);
+                console.log(response.data)
+                setWeather(response.data);
             })
             .catch(error => {
                 console.log("Error: ", error);
@@ -23,8 +23,29 @@ function Weather() {
 
 	return (
 		<div className="Weather">
-            Hello Weather!
-            <pre>{weather}</pre>
+            <div className="row">
+                <div className="col-md-4 align">
+                    <div className="temp__img">
+                        <img src={`http://openweathermap.org/img/wn/${weather.icon}@2x.png`} />
+                    </div>
+                </div>
+                <div className="col-md-3 align">
+                    <div className="temp__deg">{weather.temparature}°</div>
+                </div>
+                <div className="col-md-5 align list">
+                    <table>
+                        <tr>
+                            <td><i class="fa fa-wind"></i></td>
+                            <td><span>{weather.wind} k/h</span></td>
+                        </tr>
+                        <tr>
+                            <td><i class="fas fa-tint"></i></td>
+                            <td><span>{weather.humidity}%</span></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div className="temp__loc">{weather.city}, {weather.state}</div>
 		</div>
 	);
 }

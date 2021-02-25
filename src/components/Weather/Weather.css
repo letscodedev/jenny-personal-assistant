@@ -1,0 +1,27 @@
+.temp__loc {
+    font-weight: 700;
+    text-align: right;
+}
+
+.temp__deg {
+    font-size: 3rem;
+    font-weight: 800;
+}
+
+.align, .temp__deg {
+    display: flex;
+    justify-content: center;
+    align-items: center;   
+}
+
+.list {
+    flex-direction: column;
+}
+
+.temp__wind span, .temp__humidity span {
+    margin-left: 1rem;
+}
+
+td {
+    padding: .25rem;
+}
