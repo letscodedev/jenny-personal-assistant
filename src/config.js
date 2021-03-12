@@ -3,13 +3,14 @@ import 'firebase/auth';
 import 'firebase/firestore'
 
 const firebaseConfig = {
-    apiKey: "AIzaSyDOKEUkkFn3J1VST674lkUHdz8Jd_0bRMo",
-    authDomain: "car-renting-71651.firebaseapp.com",
-    projectId: "car-renting-71651",
-    storageBucket: "car-renting-71651.appspot.com",
-    messagingSenderId: "802899557219",
-    appId: "1:802899557219:web:bbb92fd7e19480a15d7156"
-  };
+  apiKey: "AIzaSyCzRpQDtN-U7kPn3VkJyiHvRPhwtCcD7lY",
+  authDomain: "jenny-4debf.firebaseapp.com",
+  projectId: "jenny-4debf",
+  storageBucket: "jenny-4debf.appspot.com",
+  messagingSenderId: "642848998153",
+  appId: "1:642848998153:web:21f7025888cd1ac65449d8",
+  measurementId: "G-VW0TNY39V6"
+};
 
-  const firebaseApp = firebase.initializeApp(firebaseConfig);
-  export default firebaseApp;
+const firebaseApp = firebase.initializeApp(firebaseConfig);
+export default firebaseApp;

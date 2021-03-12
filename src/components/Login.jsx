@@ -26,7 +26,13 @@ function Login() {
         .then((userCredential) => {
             var user = userCredential.user;
             console.log(user)
-            dispatch(SIGN_IN())
+			const userData = {
+				userID: user.uid,
+				username: user.displayName,
+				email: user.email
+			}
+			localStorage.setItem("user", JSON.stringify(userData));
+            dispatch(SIGN_IN(userData))
         })
         .catch((error) => {
 			console.log(error)

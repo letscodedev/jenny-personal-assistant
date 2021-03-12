@@ -1,21 +1,24 @@
-export const SIGN_IN = () => {
+export const SIGN_IN = (data) => {
     return  {
-        type: 'SIGN_IN'
+        type: 'SIGN_IN',
+        payload: data
     }
 }
 
 export const SIGN_OUT = () => {
     return  {
-        type: 'SIGN_OUT'
+        type: 'SIGN_OUT',
     }
 }
 
-const AUTH = (state = false, action) => {
+const AUTH = (state = null, action) => {
     switch(action.type) {
         case 'SIGN_IN': 
-            return true
+            const payload = action.payload
+            return {...state, payload}
         case 'SIGN_OUT':
-            return false
+            console.log(state)
+            return null
         default:
             return state
     }

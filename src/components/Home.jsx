@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import firebase from '../config'
 import './Home.css'
 import { SIGN_IN, SIGN_OUT } from '../reducers/auth'
@@ -11,14 +11,31 @@ import Weather from './Weather/Weather'
 import News from './News/News'
 
 function Home() {
+    const [auth, setAuth] = useState(false)
     const dispatch = useDispatch();
-    // const isLogged = useSelector(state => state.isLogged)
-    const isLogged = true
+    const isLogged = useSelector(state => state.isLogged)
+    // const isLogged = true
     const SignOut = () => {
         console.log('Sign Out')
+        localStorage.removeItem("user");
         firebase.auth().signOut()
         dispatch(SIGN_OUT())
     }
+
+    useEffect(() => {
+        try {
+            if(isLogged === null || isLogged.payload === null) {
+                var checkAuth = localStorage.getItem('user');
+                if(checkAuth !== undefined) {
+                    dispatch(SIGN_IN(JSON.parse(checkAuth)))
+                }
+            }
+        } catch (err) {
+            console.log('Error')
+        }
+    }, [])
+
+
 	return (
 		<div className="Home">
 			{
@@ -28,7 +45,8 @@ function Home() {
                     <div className="row">
                         <div className="col-md-4">
                             <div className="box box__blue">
-                                <h3>Devarsh Panchal</h3>
+                                <h3>{isLogged.payload.username}</h3>
+                                {/* <h3>Devarsh Panchal</h3> */}
                             </div>
                             <div className="box" style={{marginTop: '1rem'}}>
                                 <div className="twitter__title">
@@ -68,7 +86,7 @@ function Home() {
                             <div className="box" style={{marginTop: '1rem'}}>
                                 <div className="twitter__title">
                                     <h4><i class="fab fa-twitter"></i> Twitter Trending</h4>
-                                </div>
+                                </div>  
                                 <TwitterTrends />
                             </div>
                         </div>

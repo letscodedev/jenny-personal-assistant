@@ -13,6 +13,7 @@ function Signup() {
 
     const dispatch = useDispatch();
     const isLogged = useSelector(state => state.isLogged)
+	// const isLogged = false
 
     const onChangeHandler = event => {
         const { name, value } = event.currentTarget;
@@ -30,11 +31,33 @@ function Signup() {
     const createUserWithEmailAndPasswordHandler = (event, email, password, name, pin) => {
         event.preventDefault();
         firebase.auth().createUserWithEmailAndPassword(email, password)
-        .then((userCredential) => {
-            var user = userCredential.user;
-            console.log(user)
-            dispatch(SIGN_IN())
-        })
+        .then(credential => {
+			if (credential) {
+				credential.user.updateProfile({
+					displayName: name
+				})
+				console.log(credential)
+				const user = {
+					userID: credential.user.uid,
+					name: name,
+					pin: pin
+				}
+				const db = firebase.firestore();
+				db.settings({
+					timestampsInSnapshots: true
+				});
+				const user_data = credential.user;
+				const userData = {
+					userID: user_data.uid,
+					username: name,
+					email: user_data.email
+				}
+				const userRef = db.collection("users").doc(credential.user.uid).set(user)
+				.then(res => console.log(res))
+				localStorage.setItem("user", JSON.stringify(userData));
+				dispatch(SIGN_IN(userData))
+			}
+		})
         .catch((error) => {
 			console.log(error)
 		});
