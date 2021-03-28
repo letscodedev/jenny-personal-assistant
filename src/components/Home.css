@@ -50,3 +50,29 @@
 .twitter__title h4 {
     font-weight: 700;
 }
+
+.website-details {
+    margin: 1rem;
+}
+
+.website-details h4 {
+    font-weight: 700;
+}
+
+.add-new-submit {
+    margin: 1rem 0;
+}
+
+.settings-model {
+    max-height: 80vh;
+}
+
+.settings-model-body::-webkit-scrollbar {
+    width: 5px;
+    border-radius: 5px;
+}
+
+.settings-model-body::-webkit-scrollbar-thumb {
+    background-color: #0040ff;
+    outline: 1px solid #eff3f7;
+}
