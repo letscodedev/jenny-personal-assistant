@@ -58,7 +58,11 @@ function Home() {
     }, [])
 
 
-    const handleClose = () => setShow(false);
+    const handleClose = () => {
+        setShow(false);
+        setPin("");
+        setPinCorrect(false)
+    }
     const handleShow = () => setShow(true);
     const handlePin = () => {
         if (pin === "123456") {
@@ -111,14 +115,9 @@ function Home() {
                                     </div>
                                     <div style={{ marginTop: '1rem' }}>
                                         <div className="row">
-                                            {/* <div className="col-md-4">
-                                                <div className="smallBox__blue">
-                                                    <button className="buttons" onClick={() => SignOut()}><i class="fas fa-cog"></i></button>
-                                                </div>
-                                            </div> */}
                                             <div className="col-md-4">
-                                                <div className="smallBox__blue">
-                                                    <button className="buttons" onClick={handleShow}><i class="fas fa-cog"></i></button>
+                                                <div className="smallBox__blue" onClick={handleShow}>
+                                                    <button className="buttons" ><i class="fas fa-cog"></i></button>
                                                 </div>
                                             </div>
                                             <div className="col-md-4">
@@ -210,8 +209,6 @@ function Home() {
                                                             </Card>
                                                         )
                                                     })}
-
-
                                                 </Accordion>
 
                                             </div>
