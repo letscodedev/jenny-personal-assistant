@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import firebase from "../config";
-import "./Home.css";
 import { SIGN_IN, SIGN_OUT } from "../reducers/auth";
 import { useSelector, useDispatch } from "react-redux";
 import { Redirect, Link } from "react-router-dom";
@@ -12,11 +11,13 @@ import {
 	Accordion,
 	Card,
 } from "react-bootstrap";
+import "./Home.css";
 
 import Chatbot from "./Chatbot/Chatbot";
 import TwitterTrends from "./Tweets/TwitterTrends";
 import Weather from "./Weather/Weather";
 import News from "./News/News";
+
 const db = firebase.firestore();
 
 function Home() {
@@ -29,80 +30,7 @@ function Home() {
 	const [company, setCompany] = useState("");
 	const [companyEmail, setCompanyEmail] = useState("");
 	const [companyPassword, setCompanyPassword] = useState("");
-	const [companyDetail, setCompanyDetail] = useState([
-		{
-			id: 0,
-			companyName: "Zomato",
-			ComapanyEmail: "harsh@xyz.com",
-			companyPassword: "123456",
-		},
-		{
-			id: 1,
-			companyName: "Zomato",
-			ComapanyEmail: "harsh@xyz.com",
-			companyPassword: "123456",
-		},
-		{
-			id: 2,
-			companyName: "Zomato",
-			ComapanyEmail: "harsh@xyz.com",
-			companyPassword: "123456",
-		},
-		{
-			id: 3,
-			companyName: "Zomato",
-			ComapanyEmail: "harsh@xyz.com",
-			companyPassword: "123456",
-		},
-		{
-			id: 4,
-			companyName: "Zomato",
-			ComapanyEmail: "harsh@xyz.com",
-			companyPassword: "123456",
-		},
-		{
-			id: 5,
-			companyName: "Zomato",
-			ComapanyEmail: "harsh@xyz.com",
-			companyPassword: "123456",
-		},
-		{
-			id: 6,
-			companyName: "Zomato",
-			ComapanyEmail: "harsh@xyz.com",
-			companyPassword: "123456",
-		},
-		{
-			id: 7,
-			companyName: "Zomato",
-			ComapanyEmail: "harsh@xyz.com",
-			companyPassword: "123456",
-		},
-		{
-			id: 8,
-			companyName: "Zomato",
-			ComapanyEmail: "harsh@xyz.com",
-			companyPassword: "123456",
-		},
-		{
-			id: 9,
-			companyName: "Zomato",
-			ComapanyEmail: "harsh@xyz.com",
-			companyPassword: "123456",
-		},
-		{
-			id: 10,
-			companyName: "Zomato",
-			ComapanyEmail: "harsh@xyz.com",
-			companyPassword: "123456",
-		},
-		{
-			id: 11,
-			companyName: "Zomato",
-			ComapanyEmail: "harsh@xyz.com",
-			companyPassword: "123456",
-		},
-	]);
+	const [companyDetail, setCompanyDetail] = useState([]);
 	// const isLogged = true
 	const SignOut = () => {
 		console.log("Sign Out");
@@ -130,7 +58,20 @@ function Home() {
 		setPinCorrect(false);
 	};
 
-	const handleShow = () => setShow(true);
+	const handleShow = () => {
+		db.collection("users")
+			.doc(isLogged.payload.userID)
+			.get()
+			.then((doc) => {
+				if (doc.data()) {
+					setCompanyDetail(doc.data().accounts);
+				}
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+		setShow(true);
+	};
 
 	const handlePin = () => {
 		db.collection("users")
@@ -144,7 +85,7 @@ function Home() {
 				}
 			})
 			.catch((error) => {
-				console.log("Error getting document:", error);
+				console.log(error);
 			});
 	};
 
@@ -166,7 +107,24 @@ function Home() {
 			companyEmail: companyEmail,
 			companyPassword: companyPassword,
 		};
-		console.log(companyDetails);
+		db.collection("users")
+			.doc(isLogged.payload.userID)
+			.get()
+			.then((doc) => {
+				var accountsArray = doc.data().accounts;
+				console.log(accountsArray);
+				accountsArray.push(companyDetails);
+				console.log(accountsArray);
+				db.collection("users")
+					.doc(isLogged.payload.userID)
+					.set({ accounts: accountsArray }, { merge: true })
+					.catch((error) => {
+						console.log(error);
+					});
+			})
+			.catch((error) => {
+				console.log(error);
+			});
 	};
 
 	return (
@@ -273,13 +231,14 @@ function Home() {
 											<i class="fas fa-plus-circle"></i>{" "}
 											Add
 										</h4>
+										<hr></hr>
 										<div className="row">
 											<div className="col-md-4">
 												<input
 													className="form-control"
 													type="text"
 													name="company"
-													placeholder="Company name"
+													placeholder="Enter Website Name"
 													onChange={(event) =>
 														onChangeHandler(event)
 													}
@@ -290,7 +249,7 @@ function Home() {
 													className="form-control"
 													type="email"
 													name="company-email"
-													placeholder="Email"
+													placeholder="Enter email"
 													onChange={(event) =>
 														onChangeHandler(event)
 													}
@@ -301,7 +260,7 @@ function Home() {
 													className="form-control"
 													type="password"
 													name="company-password"
-													placeholder="Password"
+													placeholder="Enter password"
 													onChange={(event) =>
 														onChangeHandler(event)
 													}
@@ -323,38 +282,39 @@ function Home() {
 											Add
 										</button>
 									</div>
-									{companyDetail.length === 0 ? null : (
+									<h4>
+										<i class="far fa-list-alt"></i> Saved
+										Details
+									</h4>
+									<hr></hr>
+									{companyDetail.length === 0 ? (
+										<p>No Accounts added!</p>
+									) : (
 										<div className="added-details">
-											<h4>
-												<i class="far fa-list-alt"></i>{" "}
-												Saved Details
-											</h4>
-
 											<Accordion>
 												{companyDetail.map((each) => {
 													return (
 														<Card>
 															<Accordion.Toggle
 																as={Card.Header}
-																eventKey={`"${each.id}"`}
+																eventKey={`"${each.companyName}"`}
 															>
 																{
 																	each.companyName
 																}
 															</Accordion.Toggle>
 															<Accordion.Collapse
-																eventKey={`"${each.id}"`}
+																eventKey={`"${each.companyName}"`}
 															>
 																<Card.Body>
 																	<h6>
-																		Email-
+																		Email:{" "}
 																		{
-																			each.ComapanyEmail
+																			each.companyEmail
 																		}
 																	</h6>
 																	<h6>
-																		Password
-																		-{" "}
+																		Password:{" "}
 																		{
 																			each.companyPassword
 																		}

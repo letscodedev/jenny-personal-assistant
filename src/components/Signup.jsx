@@ -1,100 +1,157 @@
-import React, { useState } from 'react';
-import firebase from '../config'
-import { SIGN_IN } from '../reducers/auth';
-import './Signup.css';
+import React, { useState } from "react";
+import firebase from "../config";
+import { SIGN_IN } from "../reducers/auth";
+import "./Signup.css";
 import { Link, Redirect } from "react-router-dom";
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector, useDispatch } from "react-redux";
 
 function Signup() {
-    const [name, setName] = useState("");
+	const [name, setName] = useState("");
 	const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [pin, setPin] = useState("");
+	const [password, setPassword] = useState("");
+	const [pin, setPin] = useState("");
 
-    const dispatch = useDispatch();
-    const isLogged = useSelector(state => state.isLogged)
+	const dispatch = useDispatch();
+	const isLogged = useSelector((state) => state.isLogged);
 	// const isLogged = false
 
-    const onChangeHandler = event => {
-        const { name, value } = event.currentTarget;
-        if (name === "email") {
-          setEmail(value);
-        } else if (name === "password") {
-          setPassword(value);
-        } else if (name === "name") {
-		  setName(value);
+	const onChangeHandler = (event) => {
+		const { name, value } = event.currentTarget;
+		if (name === "email") {
+			setEmail(value);
+		} else if (name === "password") {
+			setPassword(value);
+		} else if (name === "name") {
+			setName(value);
 		} else if (name === "pin") {
-		  setPin(value);
-		} 
-    }
+			setPin(value);
+		}
+	};
 
-    const createUserWithEmailAndPasswordHandler = (event, email, password, name, pin) => {
-        event.preventDefault();
-        firebase.auth().createUserWithEmailAndPassword(email, password)
-        .then(credential => {
-			if (credential) {
-				credential.user.updateProfile({
-					displayName: name
-				})
-				console.log(credential)
-				const user = {
-					userID: credential.user.uid,
-					name: name,
-					pin: pin
+	const createUserWithEmailAndPasswordHandler = (
+		event,
+		email,
+		password,
+		name,
+		pin
+	) => {
+		event.preventDefault();
+		firebase
+			.auth()
+			.createUserWithEmailAndPassword(email, password)
+			.then((credential) => {
+				if (credential) {
+					credential.user.updateProfile({
+						displayName: name,
+					});
+					console.log(credential);
+					const user = {
+						userID: credential.user.uid,
+						name: name,
+						pin: pin,
+						accounts: [],
+					};
+					const db = firebase.firestore();
+					db.settings({
+						timestampsInSnapshots: true,
+					});
+					const user_data = credential.user;
+					const userData = {
+						userID: user_data.uid,
+						username: name,
+						email: user_data.email,
+					};
+					const userRef = db
+						.collection("users")
+						.doc(credential.user.uid)
+						.set(user)
+						.then((res) => console.log(res));
+					localStorage.setItem("user", JSON.stringify(userData));
+					dispatch(SIGN_IN(userData));
 				}
-				const db = firebase.firestore();
-				db.settings({
-					timestampsInSnapshots: true
-				});
-				const user_data = credential.user;
-				const userData = {
-					userID: user_data.uid,
-					username: name,
-					email: user_data.email
-				}
-				const userRef = db.collection("users").doc(credential.user.uid).set(user)
-				.then(res => console.log(res))
-				localStorage.setItem("user", JSON.stringify(userData));
-				dispatch(SIGN_IN(userData))
-			}
-		})
-        .catch((error) => {
-			console.log(error)
-		});
-    }
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	};
 
 	return (
 		<div className="Signup">
-			{
-           		isLogged ? <Redirect to='/' /> : 
-					<>
+			{isLogged ? (
+				<Redirect to="/" />
+			) : (
+				<>
 					<div className="box">
 						<form>
 							<h3 class="box__title">Sign Up</h3>
 							<div className="form-group">
 								<label>Name</label>
-								<input type="text" name="name" className="form-control" placeholder="Devarsh" onChange={event => onChangeHandler(event)}/>
+								<input
+									type="text"
+									name="name"
+									className="form-control"
+									placeholder="Devarsh"
+									onChange={(event) => onChangeHandler(event)}
+								/>
 							</div>
 							<div className="form-group">
 								<label>Email address</label>
-								<input type="email" name="email" className="form-control" placeholder="devarsh@gmail.com" onChange={event => onChangeHandler(event)}/>
+								<input
+									type="email"
+									name="email"
+									className="form-control"
+									placeholder="devarsh@gmail.com"
+									onChange={(event) => onChangeHandler(event)}
+								/>
 							</div>
 							<div className="form-group">
 								<label>Password</label>
-								<input type="password" name="password" className="form-control" placeholder="*******" onChange={event => onChangeHandler(event)}/>
+								<input
+									type="password"
+									name="password"
+									className="form-control"
+									placeholder="*******"
+									onChange={(event) => onChangeHandler(event)}
+								/>
 							</div>
 							<div className="form-group">
 								<label>PIN (6-digits)</label>
-								<input type="password" name="pin" className="form-control" placeholder="123456" onChange={event => onChangeHandler(event)}/>
+								<input
+									type="password"
+									name="pin"
+									className="form-control"
+									placeholder="123456"
+									onChange={(event) => onChangeHandler(event)}
+								/>
 							</div>
-							<button type="submit" className="btn btn-primary btn-block" onClick={event => {createUserWithEmailAndPasswordHandler(event, email, password, name, pin);}}>Sign Up</button>
-							<p className="forgot-password text-right" style={{marginTop: '.5rem'}}>
-								Already have an account? <Link to='/login'><b>Sign In</b></Link>
+							<button
+								type="submit"
+								className="btn btn-primary btn-block"
+								onClick={(event) => {
+									createUserWithEmailAndPasswordHandler(
+										event,
+										email,
+										password,
+										name,
+										pin
+									);
+								}}
+							>
+								Sign Up
+							</button>
+							<p
+								className="forgot-password text-right"
+								style={{ marginTop: ".5rem" }}
+							>
+								Already have an account?{" "}
+								<Link to="/login">
+									<b>Sign In</b>
+								</Link>
 							</p>
 						</form>
 					</div>
 				</>
-			}
+			)}
 		</div>
 	);
 }
