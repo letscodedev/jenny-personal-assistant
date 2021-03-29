@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import firebase from "../config";
+import { v4 as uuidv4 } from "uuid";
 import { SIGN_IN, SIGN_OUT } from "../reducers/auth";
 import { useSelector, useDispatch } from "react-redux";
 import { Redirect, Link } from "react-router-dom";
@@ -10,6 +11,7 @@ import {
 	FormControl,
 	Accordion,
 	Card,
+	Form,
 } from "react-bootstrap";
 import "./Home.css";
 
@@ -103,9 +105,10 @@ function Home() {
 	const onSubmitHandler = (e, company, companyEmail, companyPassword) => {
 		e.preventDefault();
 		const companyDetails = {
-			companyName: company,
-			companyEmail: companyEmail,
-			companyPassword: companyPassword,
+			id: uuidv4(),
+			company: company,
+			email: companyEmail,
+			password: companyPassword,
 		};
 		db.collection("users")
 			.doc(isLogged.payload.userID)
@@ -121,6 +124,27 @@ function Home() {
 					.catch((error) => {
 						console.log(error);
 					});
+				setCompanyDetail(accountsArray);
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	};
+
+	const deleteAccount = (id) => {
+		db.collection("users")
+			.doc(isLogged.payload.userID)
+			.get()
+			.then((doc) => {
+				var accountsArray = doc.data().accounts;
+				var newArr = accountsArray.filter((ele) => ele.id !== id);
+				db.collection("users")
+					.doc(isLogged.payload.userID)
+					.set({ accounts: newArr }, { merge: true })
+					.catch((error) => {
+						console.log(error);
+					});
+				setCompanyDetail(newArr);
 			})
 			.catch((error) => {
 				console.log(error);
@@ -211,7 +235,6 @@ function Home() {
 					</div>
 
 					<Modal
-						size="lg"
 						show={show}
 						onHide={handleClose}
 						backdrop="static"
@@ -229,11 +252,11 @@ function Home() {
 									<div className="add-new">
 										<h4>
 											<i class="fas fa-plus-circle"></i>{" "}
-											Add
+											Add Account
 										</h4>
 										<hr></hr>
-										<div className="row">
-											<div className="col-md-4">
+										<div className="container">
+											<Form.Group>
 												<input
 													className="form-control"
 													type="text"
@@ -243,8 +266,8 @@ function Home() {
 														onChangeHandler(event)
 													}
 												/>
-											</div>
-											<div className="col-md-4">
+											</Form.Group>
+											<Form.Group>
 												<input
 													className="form-control"
 													type="email"
@@ -254,8 +277,8 @@ function Home() {
 														onChangeHandler(event)
 													}
 												/>
-											</div>
-											<div className="col-md-4">
+											</Form.Group>
+											<Form.Group>
 												<input
 													className="form-control"
 													type="password"
@@ -265,26 +288,26 @@ function Home() {
 														onChangeHandler(event)
 													}
 												/>
-											</div>
+											</Form.Group>
+											<Form.Group>
+												<Button
+													onClick={(event) =>
+														onSubmitHandler(
+															event,
+															company,
+															companyEmail,
+															companyPassword
+														)
+													}
+												>
+													Add
+												</Button>
+											</Form.Group>
 										</div>
-										<button
-											type="button"
-											class="btn btn-primary add-new-submit"
-											onClick={(event) =>
-												onSubmitHandler(
-													event,
-													company,
-													companyEmail,
-													companyPassword
-												)
-											}
-										>
-											Add
-										</button>
 									</div>
 									<h4>
 										<i class="far fa-list-alt"></i> Saved
-										Details
+										Account(s)
 									</h4>
 									<hr></hr>
 									{companyDetail.length === 0 ? (
@@ -297,28 +320,57 @@ function Home() {
 														<Card>
 															<Accordion.Toggle
 																as={Card.Header}
-																eventKey={`"${each.companyName}"`}
+																eventKey={`"${each.id}"`}
 															>
-																{
-																	each.companyName
-																}
+																{each.company}
 															</Accordion.Toggle>
 															<Accordion.Collapse
-																eventKey={`"${each.companyName}"`}
+																eventKey={`"${each.id}"`}
 															>
 																<Card.Body>
-																	<h6>
-																		Email:{" "}
-																		{
-																			each.companyEmail
+																	<InputGroup className="mb-3">
+																		<InputGroup.Prepend>
+																			<InputGroup.Text id="basic-addon1">
+																				<i className="fas fa-at"></i>
+																			</InputGroup.Text>
+																		</InputGroup.Prepend>
+																		<FormControl
+																			value={
+																				each.email
+																			}
+																			disabled
+																			placeholder="Username"
+																			aria-label="Username"
+																			aria-describedby="basic-addon1"
+																		/>
+																	</InputGroup>
+																	<InputGroup className="mb-3">
+																		<InputGroup.Prepend>
+																			<InputGroup.Text id="basic-addon1">
+																				<i className="fas fa-key"></i>
+																			</InputGroup.Text>
+																		</InputGroup.Prepend>
+																		<FormControl
+																			value={
+																				each.password
+																			}
+																			disabled
+																			type="password"
+																			placeholder="Password"
+																			aria-label="Password"
+																			aria-describedby="basic-addon1"
+																		/>
+																	</InputGroup>
+																	<Button
+																		variant="danger"
+																		onClick={() =>
+																			deleteAccount(
+																				each.id
+																			)
 																		}
-																	</h6>
-																	<h6>
-																		Password:{" "}
-																		{
-																			each.companyPassword
-																		}
-																	</h6>
+																	>
+																		Delete
+																	</Button>
 																</Card.Body>
 															</Accordion.Collapse>
 														</Card>
