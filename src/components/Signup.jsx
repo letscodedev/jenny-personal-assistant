@@ -61,8 +61,7 @@ function Signup() {
 						username: name,
 						email: user_data.email,
 					};
-					const userRef = db
-						.collection("users")
+					db.collection("users")
 						.doc(credential.user.uid)
 						.set(user)
 						.then((res) => console.log(res));

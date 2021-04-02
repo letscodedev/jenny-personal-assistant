@@ -1,78 +1,78 @@
-.Home {
-    padding: 2rem 0;
-    background-color: #eff3f7;
-    height: 100vh;
-    width: 100%;
-    font-family: 'Montserrat';
+.home {
+	padding: 2rem 0;
+	background-color: #eff3f7;
+	height: 100vh;
+	width: 100%;
+	font-family: "Montserrat";
 }
 
 .box__blue {
-    background-color: #0040ff;
-    color: #fff;
+	background-color: #0040ff;
+	color: #fff;
 }
 
 .block {
-    display: block;
-    height: calc(100vh - 4rem);
+	display: block;
+	height: calc(100vh - 4rem);
 }
 
 .smallBox__blue {
-    background-color: #0040ff;
-    color: #fff;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 8px;
-    padding: 1rem 0;
+	background-color: #0040ff;
+	color: #fff;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-radius: 8px;
+	padding: 1rem 0;
 }
 
 .smallBox__blue:hover {
-    cursor: pointer;
+	cursor: pointer;
 }
 
 .smallBox__blue i {
-    font-size: 1.5rem;
+	font-size: 1.5rem;
 }
 
 .buttons {
-    background-color: transparent;
-    border: 0;
-    color: #fff;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+	background-color: transparent;
+	border: 0;
+	color: #fff;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 .twitter__title {
-    margin-bottom: 1rem;
+	margin-bottom: 1rem;
 }
 
 .twitter__title h4 {
-    font-weight: 700;
+	font-weight: 700;
 }
 
 .website-details {
-    margin: 1rem;
+	margin: 1rem;
 }
 
 .website-details h4 {
-    font-weight: 700;
+	font-weight: 700;
 }
 
 .add-new-submit {
-    margin: 1rem 0;
+	margin: 1rem 0;
 }
 
 .settings-model {
-    max-height: 80vh;
+	max-height: 80vh;
 }
 
 .settings-model-body::-webkit-scrollbar {
-    width: 5px;
-    border-radius: 5px;
+	width: 5px;
+	border-radius: 5px;
 }
 
 .settings-model-body::-webkit-scrollbar-thumb {
-    background-color: #0040ff;
-    outline: 1px solid #eff3f7;
+	background-color: #0040ff;
+	outline: 1px solid #eff3f7;
 }

@@ -2,7 +2,6 @@ import React from "react";
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { Cube } from "react-preloaders2";
-import { Sugar } from "react-preloaders2";
 
 import Login from "./components/Login";
 import SignUp from "./components/Signup";

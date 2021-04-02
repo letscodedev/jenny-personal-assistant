@@ -3,7 +3,6 @@ import firebase from "../config";
 import { v4 as uuidv4 } from "uuid";
 import { SIGN_IN, SIGN_OUT } from "../reducers/auth";
 import { useSelector, useDispatch } from "react-redux";
-import { Redirect, Link } from "react-router-dom";
 import {
 	Modal,
 	Button,
@@ -15,6 +14,8 @@ import {
 } from "react-bootstrap";
 import "./Home.css";
 
+import Login from "./Login";
+
 import Chatbot from "./Chatbot/Chatbot";
 import TwitterTrends from "./Tweets/TwitterTrends";
 import Weather from "./Weather/Weather";
@@ -23,7 +24,6 @@ import News from "./News/News";
 const db = firebase.firestore();
 
 function Home() {
-	const [auth, setAuth] = useState(false);
 	const [show, setShow] = useState(false);
 	const dispatch = useDispatch();
 	const isLogged = useSelector((state) => state.isLogged);
@@ -42,16 +42,17 @@ function Home() {
 	};
 
 	useEffect(() => {
-		try {
-			if (isLogged === null || isLogged.payload === null) {
-				var checkAuth = localStorage.getItem("user");
-				if (checkAuth !== undefined) {
-					dispatch(SIGN_IN(JSON.parse(checkAuth)));
-				}
+		const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
+			if (user) {
+				console.log(user);
+				dispatch(SIGN_IN(user));
+				console.log("Login");
+			} else {
+				dispatch(SIGN_OUT(user));
+				console.log("Logout");
 			}
-		} catch (err) {
-			console.log("Error");
-		}
+		});
+		return unsubscribe;
 	}, []);
 
 	const handleClose = () => {
@@ -155,256 +156,277 @@ function Home() {
 		<div className="Home">
 			{isLogged ? (
 				<>
-					<div className="container">
-						<div className="row">
-							<div className="col-md-4">
-								<div className="box box__blue">
-									<h3>{isLogged.payload.username}</h3>
-									{/* <h3>Devarsh Panchal</h3> */}
-								</div>
-								<div
-									className="box"
-									style={{ marginTop: "1rem" }}
-								>
-									<div className="twitter__title">
-										<h4>
-											<i class="far fa-newspaper"></i>{" "}
-											News
-										</h4>
-										<News />
+					<div className="home">
+						<div className="container">
+							<div className="row">
+								<div className="col-md-4">
+									<div className="box box__blue">
+										<h3>{isLogged.payload.displayName}</h3>
+										{/* <h3>Devarsh Panchal</h3> */}
 									</div>
-								</div>
-								<div style={{ marginTop: "1rem" }}>
-									<div className="row">
-										<div className="col-md-4">
-											<div
-												className="smallBox__blue"
-												onClick={handleShow}
-											>
-												<button className="buttons">
-													<i class="fas fa-cog"></i>
-												</button>
-											</div>
+									<div
+										className="box"
+										style={{ marginTop: "1rem" }}
+									>
+										<div className="twitter__title">
+											<h4>
+												<i class="far fa-newspaper"></i>{" "}
+												News
+											</h4>
+											<News />
 										</div>
-										<div className="col-md-4">
-											<div className="smallBox__blue">
-												<button
-													className="buttons"
-													onClick={() => SignOut()}
+									</div>
+									<div style={{ marginTop: "1rem" }}>
+										<div className="row">
+											<div className="col-md-4">
+												<div
+													className="smallBox__blue"
+													onClick={handleShow}
 												>
-													<i class="fas fa-cog"></i>
-												</button>
+													<button className="buttons">
+														<i class="fas fa-cog"></i>
+													</button>
+												</div>
 											</div>
-										</div>
-										<div className="col-md-4">
-											<div className="smallBox__blue">
-												<button
-													className="buttons"
-													onClick={() => SignOut()}
-												>
-													<i class="fas fa-sign-out-alt"></i>
-												</button>
+											<div className="col-md-4">
+												<div className="smallBox__blue">
+													<button
+														className="buttons"
+														onClick={() =>
+															SignOut()
+														}
+													>
+														<i class="fas fa-cog"></i>
+													</button>
+												</div>
+											</div>
+											<div className="col-md-4">
+												<div className="smallBox__blue">
+													<button
+														className="buttons"
+														onClick={() =>
+															SignOut()
+														}
+													>
+														<i class="fas fa-sign-out-alt"></i>
+													</button>
+												</div>
 											</div>
 										</div>
 									</div>
 								</div>
-							</div>
-							<div className="col-md-4">
-								<div className="box block">
-									<Chatbot />
-								</div>
-							</div>
-							<div className="col-md-4">
-								<div className="box">
-									<Weather />
-								</div>
-								<div
-									className="box"
-									style={{ marginTop: "1rem" }}
-								>
-									<div className="twitter__title">
-										<h4>
-											<i class="fab fa-twitter"></i>{" "}
-											Twitter Trending
-										</h4>
+								<div className="col-md-4">
+									<div className="box block">
+										<Chatbot />
 									</div>
-									<TwitterTrends />
+								</div>
+								<div className="col-md-4">
+									<div className="box">
+										<Weather />
+									</div>
+									<div
+										className="box"
+										style={{ marginTop: "1rem" }}
+									>
+										<div className="twitter__title">
+											<h4>
+												<i class="fab fa-twitter"></i>{" "}
+												Twitter Trending
+											</h4>
+										</div>
+										<TwitterTrends />
+									</div>
 								</div>
 							</div>
 						</div>
-					</div>
 
-					<Modal
-						show={show}
-						onHide={handleClose}
-						backdrop="static"
-						keyboard={false}
-						centered
-						scrollable={true}
-						className="settings-model"
-					>
-						<Modal.Header closeButton>
-							<Modal.Title>Settings</Modal.Title>
-						</Modal.Header>
-						<Modal.Body className="settings-model-body">
-							{pinCorrect ? (
-								<div className="website-details">
-									<div className="add-new">
+						<Modal
+							show={show}
+							onHide={handleClose}
+							backdrop="static"
+							keyboard={false}
+							centered
+							scrollable={true}
+							className="settings-model"
+						>
+							<Modal.Header closeButton>
+								<Modal.Title>Settings</Modal.Title>
+							</Modal.Header>
+							<Modal.Body className="settings-model-body">
+								{pinCorrect ? (
+									<div className="website-details">
+										<div className="add-new">
+											<h4>
+												<i class="fas fa-plus-circle"></i>{" "}
+												Add Account
+											</h4>
+											<hr></hr>
+											<div className="container">
+												<Form.Group>
+													<input
+														className="form-control"
+														type="text"
+														name="company"
+														placeholder="Enter Website Name"
+														onChange={(event) =>
+															onChangeHandler(
+																event
+															)
+														}
+													/>
+												</Form.Group>
+												<Form.Group>
+													<input
+														className="form-control"
+														type="email"
+														name="company-email"
+														placeholder="Enter email"
+														onChange={(event) =>
+															onChangeHandler(
+																event
+															)
+														}
+													/>
+												</Form.Group>
+												<Form.Group>
+													<input
+														className="form-control"
+														type="password"
+														name="company-password"
+														placeholder="Enter password"
+														onChange={(event) =>
+															onChangeHandler(
+																event
+															)
+														}
+													/>
+												</Form.Group>
+												<Form.Group>
+													<Button
+														onClick={(event) =>
+															onSubmitHandler(
+																event,
+																company,
+																companyEmail,
+																companyPassword
+															)
+														}
+													>
+														Add
+													</Button>
+												</Form.Group>
+											</div>
+										</div>
 										<h4>
-											<i class="fas fa-plus-circle"></i>{" "}
-											Add Account
+											<i class="far fa-list-alt"></i>{" "}
+											Saved Account(s)
 										</h4>
 										<hr></hr>
-										<div className="container">
-											<Form.Group>
-												<input
-													className="form-control"
-													type="text"
-													name="company"
-													placeholder="Enter Website Name"
-													onChange={(event) =>
-														onChangeHandler(event)
-													}
-												/>
-											</Form.Group>
-											<Form.Group>
-												<input
-													className="form-control"
-													type="email"
-													name="company-email"
-													placeholder="Enter email"
-													onChange={(event) =>
-														onChangeHandler(event)
-													}
-												/>
-											</Form.Group>
-											<Form.Group>
-												<input
-													className="form-control"
-													type="password"
-													name="company-password"
-													placeholder="Enter password"
-													onChange={(event) =>
-														onChangeHandler(event)
-													}
-												/>
-											</Form.Group>
-											<Form.Group>
-												<Button
-													onClick={(event) =>
-														onSubmitHandler(
-															event,
-															company,
-															companyEmail,
-															companyPassword
-														)
-													}
-												>
-													Add
-												</Button>
-											</Form.Group>
-										</div>
-									</div>
-									<h4>
-										<i class="far fa-list-alt"></i> Saved
-										Account(s)
-									</h4>
-									<hr></hr>
-									{companyDetail.length === 0 ? (
-										<p>No Accounts added!</p>
-									) : (
-										<div className="added-details">
-											<Accordion>
-												{companyDetail.map((each) => {
-													return (
-														<Card>
-															<Accordion.Toggle
-																as={Card.Header}
-																eventKey={`"${each.id}"`}
-															>
-																{each.company}
-															</Accordion.Toggle>
-															<Accordion.Collapse
-																eventKey={`"${each.id}"`}
-															>
-																<Card.Body>
-																	<InputGroup className="mb-3">
-																		<InputGroup.Prepend>
-																			<InputGroup.Text id="basic-addon1">
-																				<i className="fas fa-at"></i>
-																			</InputGroup.Text>
-																		</InputGroup.Prepend>
-																		<FormControl
-																			value={
-																				each.email
-																			}
-																			disabled
-																			placeholder="Username"
-																			aria-label="Username"
-																			aria-describedby="basic-addon1"
-																		/>
-																	</InputGroup>
-																	<InputGroup className="mb-3">
-																		<InputGroup.Prepend>
-																			<InputGroup.Text id="basic-addon1">
-																				<i className="fas fa-key"></i>
-																			</InputGroup.Text>
-																		</InputGroup.Prepend>
-																		<FormControl
-																			value={
-																				each.password
-																			}
-																			disabled
-																			type="password"
-																			placeholder="Password"
-																			aria-label="Password"
-																			aria-describedby="basic-addon1"
-																		/>
-																	</InputGroup>
-																	<Button
-																		variant="danger"
-																		onClick={() =>
-																			deleteAccount(
-																				each.id
-																			)
+										{companyDetail.length === 0 ? (
+											<p>No Accounts added!</p>
+										) : (
+											<div className="added-details">
+												<Accordion>
+													{companyDetail.map(
+														(each) => {
+															return (
+																<Card>
+																	<Accordion.Toggle
+																		as={
+																			Card.Header
 																		}
+																		eventKey={`"${each.id}"`}
 																	>
-																		Delete
-																	</Button>
-																</Card.Body>
-															</Accordion.Collapse>
-														</Card>
-													);
-												})}
-											</Accordion>
-										</div>
-									)}
-								</div>
-							) : (
-								<InputGroup className="mb-3">
-									<FormControl
-										type="password"
-										placeholder="Pin"
-										aria-label="Pin"
-										aria-describedby="basic-addon1"
-										onChange={(event) => {
-											setPin(event.target.value);
-										}}
-									/>
-								</InputGroup>
+																		{
+																			each.company
+																		}
+																	</Accordion.Toggle>
+																	<Accordion.Collapse
+																		eventKey={`"${each.id}"`}
+																	>
+																		<Card.Body>
+																			<InputGroup className="mb-3">
+																				<InputGroup.Prepend>
+																					<InputGroup.Text id="basic-addon1">
+																						<i className="fas fa-at"></i>
+																					</InputGroup.Text>
+																				</InputGroup.Prepend>
+																				<FormControl
+																					value={
+																						each.email
+																					}
+																					disabled
+																					placeholder="Username"
+																					aria-label="Username"
+																					aria-describedby="basic-addon1"
+																				/>
+																			</InputGroup>
+																			<InputGroup className="mb-3">
+																				<InputGroup.Prepend>
+																					<InputGroup.Text id="basic-addon1">
+																						<i className="fas fa-key"></i>
+																					</InputGroup.Text>
+																				</InputGroup.Prepend>
+																				<FormControl
+																					value={
+																						each.password
+																					}
+																					disabled
+																					type="password"
+																					placeholder="Password"
+																					aria-label="Password"
+																					aria-describedby="basic-addon1"
+																				/>
+																			</InputGroup>
+																			<Button
+																				variant="danger"
+																				onClick={() =>
+																					deleteAccount(
+																						each.id
+																					)
+																				}
+																			>
+																				Delete
+																			</Button>
+																		</Card.Body>
+																	</Accordion.Collapse>
+																</Card>
+															);
+														}
+													)}
+												</Accordion>
+											</div>
+										)}
+									</div>
+								) : (
+									<InputGroup className="mb-3">
+										<FormControl
+											type="password"
+											placeholder="Pin"
+											aria-label="Pin"
+											aria-describedby="basic-addon1"
+											onChange={(event) => {
+												setPin(event.target.value);
+											}}
+										/>
+									</InputGroup>
+								)}
+							</Modal.Body>
+							{pinCorrect ? null : (
+								<Modal.Footer>
+									<Button
+										variant="primary"
+										onClick={handlePin}
+									>
+										Check
+									</Button>
+								</Modal.Footer>
 							)}
-						</Modal.Body>
-						{pinCorrect ? null : (
-							<Modal.Footer>
-								<Button variant="primary" onClick={handlePin}>
-									Check
-								</Button>
-							</Modal.Footer>
-						)}
-					</Modal>
+						</Modal>
+					</div>
 				</>
 			) : (
-				<Redirect to="/login" />
+				<Login />
 			)}
 		</div>
 	);
