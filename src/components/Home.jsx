@@ -63,7 +63,7 @@ function Home() {
 
 	const handleShow = () => {
 		db.collection("users")
-			.doc(isLogged.payload.userID)
+			.doc(isLogged.payload.uid)
 			.get()
 			.then((doc) => {
 				if (doc.data()) {
@@ -78,7 +78,7 @@ function Home() {
 
 	const handlePin = () => {
 		db.collection("users")
-			.doc(isLogged.payload.userID)
+			.doc(isLogged.payload.uid)
 			.get()
 			.then((doc) => {
 				if (pin === doc.data().pin) {

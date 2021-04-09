@@ -18,22 +18,6 @@ const sampleData = [
 		URL: "39K",
 	},
 	{
-		News: "#INDvsENG",
-		URL: "39K",
-	},
-	{
-		News: "#INDvsENG",
-		URL: "39K",
-	},
-	{
-		News: "#INDvsENG",
-		URL: "39K",
-	},
-	{
-		News: "#INDvsENG",
-		URL: "39K",
-	},
-	{
 		News: "#INDvsENG 3",
 		URL: "39K",
 	},

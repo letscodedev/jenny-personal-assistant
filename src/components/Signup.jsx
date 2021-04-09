@@ -4,8 +4,10 @@ import { SIGN_IN } from "../reducers/auth";
 import "./Signup.css";
 import { Link, Redirect } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+import { Toast } from "react-bootstrap";
 
 function Signup() {
+	const [error, setError] = useState(false);
 	const [name, setName] = useState("");
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
@@ -70,19 +72,39 @@ function Signup() {
 				}
 			})
 			.catch((error) => {
-				console.log(error);
+				setError(true);
+				console.log(error.message);
 			});
 	};
 
 	return (
 		<div className="Signup">
+			<Toast
+				onClose={() => setError(false)}
+				show={error}
+				delay={3000}
+				autohide
+				style={{
+					position: "fixed",
+					bottom: 15,
+					right: 15,
+					backgroundColor: "#c82333",
+					zIndex: 3,
+					color: "white",
+					padding: "0.5rem 1rem",
+				}}
+			>
+				<Toast.Body>
+					Error while registeration. Please retry...
+				</Toast.Body>
+			</Toast>
 			{isLogged ? (
 				<Redirect to="/" />
 			) : (
 				<>
 					<div className="box">
-						<form>
-							<h3 class="box__title">Sign Up</h3>
+						<form autoComplete="off">
+							<h3 className="box__title">Sign Up</h3>
 							<div className="form-group">
 								<label>Name</label>
 								<input
