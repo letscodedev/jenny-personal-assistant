@@ -1,0 +1,8 @@
+.teams__score {
+	display: flex;
+	flex-direction: column;
+}
+
+.team__updates {
+	font-size: 14px;
+}

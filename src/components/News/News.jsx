@@ -2,39 +2,18 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./News.css";
 
-const sampleData = [
-	{
-		News:
-			"Covid Shots For 60+ And Over 45-With-Comorbidities From March 1 - NDTV",
-		URL: "http://google.com",
-	},
-	{
-		News:
-			"Negative Covid test report is now mandatory to enter several states in India; check full list - Times of India",
-		URL: "39K",
-	},
-	{
-		News: "#INDvsENG",
-		URL: "39K",
-	},
-	{
-		News: "#INDvsENG 3",
-		URL: "39K",
-	},
-];
-
 function News() {
-	const [news, setNews] = useState(sampleData);
+	const [news, setNews] = useState([]);
 
 	useEffect(() => {
 		fetchData();
 	}, []);
 
-	const fetchData = () => {
+	const fetchData = async () => {
 		axios
-			.get("http://localhost:5000/news") // API CALL
+			.get("https://jenny-backend.herokuapp.com/news") // API CALL
 			.then((response) => {
-				setNews(response);
+				setNews(response.data);
 			})
 			.catch((error) => {
 				console.log("Error: ", error);
@@ -44,21 +23,24 @@ function News() {
 	return (
 		<div className="News">
 			{console.log(news)}
-			{news.length > 1
-				? news.map((n) => {
-						return (
-							<div className="news__marginbtm">
-								<a
-									href={n.URL}
-									target="_blank"
-									rel="noreferrer"
-								>
-									<p>{n.News}</p>
-								</a>
-							</div>
-						);
-				  })
-				: setNews(sampleData)}
+			{news.length > 1 ? (
+				news.map((n) => {
+					console.log(n);
+					return (
+						<div className="news__marginbtm">
+							<a
+								href={n.NewsUrl}
+								target="_blank"
+								rel="noreferrer"
+							>
+								<p>{n.NewsTitle}</p>
+							</a>
+						</div>
+					);
+				})
+			) : (
+				<p>Loading</p>
+			)}
 		</div>
 	);
 }

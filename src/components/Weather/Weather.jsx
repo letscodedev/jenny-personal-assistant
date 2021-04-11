@@ -11,7 +11,7 @@ function Weather() {
 
 	const fetchData = () => {
 		axios
-			.get("http://localhost:5000/weather") // API CALL
+			.get("https://jenny-backend.herokuapp.com/weather") // API CALL
 			.then((response) => {
 				console.log(response.data);
 				setWeather(response.data);

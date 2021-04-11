@@ -11,7 +11,7 @@ function TwitterTrends() {
 
 	const fetchData = () => {
 		axios
-			.get("http://localhost:5000/trends") // API CALL
+			.get("https://jenny-backend.herokuapp.com/trends") // API CALL
 			.then((response) => {
 				console.log("Data Received!");
 				setTrends(response.data);

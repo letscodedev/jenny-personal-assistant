@@ -20,6 +20,7 @@ import Chatbot from "./Chatbot/Chatbot";
 import TwitterTrends from "./Tweets/TwitterTrends";
 import Weather from "./Weather/Weather";
 import News from "./News/News";
+import LiveScore from "./LiveScore/LiveScore";
 
 const db = firebase.firestore();
 
@@ -170,7 +171,7 @@ function Home() {
 									>
 										<div className="twitter__title">
 											<h4>
-												<i class="far fa-newspaper"></i>{" "}
+												<i className="far fa-newspaper"></i>{" "}
 												News
 											</h4>
 											<News />
@@ -184,7 +185,7 @@ function Home() {
 													onClick={handleShow}
 												>
 													<button className="buttons">
-														<i class="fas fa-cog"></i>
+														<i className="fas fa-cog"></i>
 													</button>
 												</div>
 											</div>
@@ -208,7 +209,7 @@ function Home() {
 															SignOut()
 														}
 													>
-														<i class="fas fa-sign-out-alt"></i>
+														<i className="fas fa-sign-out-alt"></i>
 													</button>
 												</div>
 											</div>
@@ -230,11 +231,23 @@ function Home() {
 									>
 										<div className="twitter__title">
 											<h4>
-												<i class="fab fa-twitter"></i>{" "}
+												<i className="fab fa-twitter"></i>{" "}
 												Twitter Trending
 											</h4>
 										</div>
 										<TwitterTrends />
+									</div>
+									<div
+										className="box"
+										style={{ marginTop: "1rem" }}
+									>
+										<div className="twitter__title">
+											<h4>
+												<i className="fas fa-trophy"></i>{" "}
+												Live Score
+											</h4>
+										</div>
+										<LiveScore />
 									</div>
 								</div>
 							</div>
