@@ -13,6 +13,7 @@ function News() {
 		axios
 			.get("https://jenny-backend.herokuapp.com/news") // API CALL
 			.then((response) => {
+				console.log("News Received");
 				setNews(response.data);
 			})
 			.catch((error) => {
@@ -22,12 +23,10 @@ function News() {
 
 	return (
 		<div className="News">
-			{console.log(news)}
 			{news.length > 1 ? (
-				news.map((n) => {
-					console.log(n);
+				news.map((n, index) => {
 					return (
-						<div className="news__marginbtm">
+						<div className="news__marginbtm" key={index}>
 							<a
 								href={n.NewsUrl}
 								target="_blank"

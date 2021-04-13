@@ -13,7 +13,7 @@ function TwitterTrends() {
 		axios
 			.get("https://jenny-backend.herokuapp.com/trends") // API CALL
 			.then((response) => {
-				console.log("Data Received!");
+				console.log("Trends Received!");
 				setTrends(response.data);
 			})
 			.catch((error) => {
@@ -25,9 +25,8 @@ function TwitterTrends() {
 		<div className="TwitterTrends">
 			{trends.length > 1 ? (
 				trends?.map((trend, index) => {
-					console.log(trend);
 					return (
-						<div className="trend">
+						<div className="trend" key={index}>
 							<p>
 								{index + 1}.{" "}
 								<a href={trend.url}>

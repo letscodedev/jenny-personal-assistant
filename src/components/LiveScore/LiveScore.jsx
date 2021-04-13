@@ -10,17 +10,24 @@ function LiveScore() {
 	}, []);
 
 	const getScore = () => {
-		// setInterval(() => {
-		console.log("Refresh");
 		axios
-			.get(
-				"https://cricket-api.vercel.app/cri.php?url=https://www.cricbuzz.com/live-cricket-scores/35618/3rd-match-indian-premier-league-2021"
-			)
+			.get("https://jenny-backend.herokuapp.com/score")
 			.then((response) => {
 				console.log(response.data);
-				setScore(response.data);
-			});
-		// }, 10000);
+				var match_status = response.data.match_status;
+				var match_url = response.data.match_url.replace("www", "m");
+				setInterval(() => {
+					axios
+						.get(
+							`http://localhost:8000/cricket?match_url=${match_url}&match_status=${match_status}`
+						)
+						.then((response) => {
+							console.log(response.data);
+							setScore(response.data);
+						});
+				}, 10000);
+			})
+			.catch((error) => console.log(error));
 	};
 
 	return (
@@ -28,16 +35,32 @@ function LiveScore() {
 			{score ? (
 				<>
 					<div className="teams">
-						<div className="teams__score">
-							<div className="team__name">
-								{score.livescore.teamone}
+						<div className="team__score">
+							<div className="teamOne">
+								<span style={{ fontWeight: "bold" }}>
+									{score.teamOne.split("-")[0]}
+									{/* Team Name */}
+								</span>
+								<br></br>
+								{score.teamOne.split("-")[1]}
+								{/* Score */}
 							</div>
-							<div className="team__name">
-								{score && score.livescore.teamtwo}
+							<div className="match_status">
+								<span>{score.match_status}</span>
+							</div>
+							<div className="teamTwo">
+								<span style={{ fontWeight: "bold" }}>
+									{score.teamTwo.split("-")[0]}
+									{/* Team Name */}
+								</span>
+								<br></br>
+								{score.teamTwo.split("-")[1]}
+								{/* Score */}
 							</div>
 						</div>
 						<div className="team__updates">
-							{score && score.livescore.update}
+							{score && score.update}
+							{/* Update */}
 						</div>
 					</div>
 				</>

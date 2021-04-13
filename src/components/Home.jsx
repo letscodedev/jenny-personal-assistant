@@ -197,7 +197,7 @@ function Home() {
 															SignOut()
 														}
 													>
-														<i class="fas fa-cog"></i>
+														<i className="fas fa-cog"></i>
 													</button>
 												</div>
 											</div>
@@ -270,7 +270,7 @@ function Home() {
 									<div className="website-details">
 										<div className="add-new">
 											<h4>
-												<i class="fas fa-plus-circle"></i>{" "}
+												<i className="fas fa-plus-circle"></i>{" "}
 												Add Account
 											</h4>
 											<hr></hr>
@@ -331,7 +331,7 @@ function Home() {
 											</div>
 										</div>
 										<h4>
-											<i class="far fa-list-alt"></i>{" "}
+											<i className="far fa-list-alt"></i>{" "}
 											Saved Account(s)
 										</h4>
 										<hr></hr>

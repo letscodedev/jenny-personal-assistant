@@ -1,8 +1,57 @@
-.teams__score {
+.team__score {
 	display: flex;
-	flex-direction: column;
+	justify-content: space-between;
+}
+
+.match_status {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.match_status span {
+	position: relative;
+	font-weight: bold;
+	color: #259b24;
+}
+
+.match_status span:before {
+	content: "";
+	position: absolute;
+	width: 10px;
+	height: 3px;
+	bottom: -1px;
+	background-color: #259b24;
+	animation: underline ease-in alternate infinite 1.6s;
+}
+
+@keyframes underline {
+	0% {
+		width: 0%;
+	}
+	20% {
+		width: 30%;
+	}
+	40% {
+		width: 100%;
+	}
+	60% {
+		width: 60%;
+	}
+	80% {
+		width: 30%;
+	}
+	100% {
+		width: 0%;
+	}
+}
+
+.teamTwo {
+	text-align: right;
 }
 
 .team__updates {
+	text-align: center;
+	margin-top: 5px;
 	font-size: 14px;
 }
