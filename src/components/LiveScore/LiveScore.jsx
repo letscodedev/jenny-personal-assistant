@@ -35,33 +35,54 @@ function LiveScore() {
 			{score ? (
 				<>
 					<div className="teams">
-						<div className="team__score">
-							<div className="teamOne">
-								<span style={{ fontWeight: "bold" }}>
-									{score.teamOne.split("-")[0]}
-									{/* Team Name */}
-								</span>
-								<br></br>
-								{score.teamOne.split("-")[1]}
-								{/* Score */}
-							</div>
-							<div className="match_status">
-								<span>{score.match_status}</span>
-							</div>
-							<div className="teamTwo">
-								<span style={{ fontWeight: "bold" }}>
-									{score.teamTwo.split("-")[0]}
-									{/* Team Name */}
-								</span>
-								<br></br>
-								{score.teamTwo.split("-")[1]}
-								{/* Score */}
-							</div>
-						</div>
-						<div className="team__updates">
-							{score && score.update}
-							{/* Update */}
-						</div>
+						{score.teamOne === "No Data Found" ? (
+							<>
+								<div
+									style={{
+										textAlign: "center",
+										marginBottom: "10px",
+									}}
+								>
+									{score.title.split(",")[0]}
+								</div>
+								<div
+									className="match_status"
+									style={{
+										marginBottom: "10px",
+									}}
+								>
+									<span>{score.match_status}</span>
+								</div>
+								{score.update === "No Data Found" ? null : (
+									<div>{score.update}</div>
+								)}
+							</>
+						) : (
+							<>
+								<div className="team__score">
+									<div className="teamOne">
+										<span style={{ fontWeight: "bold" }}>
+											{score.teamOne.split("-")[0]}
+										</span>
+										<br></br>
+										{score.teamOne.split("-")[1]}
+									</div>
+									<div className="match_status">
+										<span>{score.match_status}</span>
+									</div>
+									<div className="teamTwo">
+										<span style={{ fontWeight: "bold" }}>
+											{score.teamTwo.split("-")[0]}
+										</span>
+										<br></br>
+										{score.teamTwo.split("-")[1]}
+									</div>
+								</div>
+								<div className="team__updates">
+									{score && score.update}
+								</div>
+							</>
+						)}
 					</div>
 				</>
 			) : (
