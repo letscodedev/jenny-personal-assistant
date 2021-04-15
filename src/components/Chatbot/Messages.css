@@ -1,32 +1,46 @@
 .user {
-    display: flex;
-    justify-content: flex-end;
+	display: flex;
+	justify-content: flex-end;
 }
 
 .user__text {
-    display: inline-block;
-    padding: 10px 20px;
-    background-color: #0040ff;
-    color: white;
-    border-radius: 20px 5px 20px 20px;
-    margin-bottom: 10px;
-    max-width: 80%;
+	display: inline-block;
+	padding: 10px 20px;
+	background-color: #0040ff;
+	color: white;
+	border-radius: 20px 5px 20px 20px;
+	margin-bottom: 10px;
+	max-width: 80%;
 }
 
 .bot__text {
-    display: inline-block;
-    padding: 10px 20px;
-    background-color: #f5f6fa;
-    color: black;
-    border-radius: 5px 20px 20px 20px;
-    margin-bottom: 10px;
-    max-width: 80%;
+	display: inline-block;
+	padding: 10px 20px;
+	background-color: #f5f6fa;
+	color: black;
+	border-radius: 5px 20px 20px 20px;
+	margin-bottom: 10px;
+	max-width: 80%;
 }
 
 .Messages {
-    overflow-y: auto;
-    height: calc(100vh - 10rem);
-    display: flex;
-    justify-content: flex-end;
-    flex-direction: column;
+	overflow-y: auto;
+	height: calc(100vh - 10rem);
+	display: flex;
+	/* justify-content: flex-end; */
+	flex-direction: column;
+}
+.Messages > :first-child {
+	margin-top: auto !important;
+	/* use !important to prevent breakage from child margin settings */
+}
+
+.Messages::-webkit-scrollbar {
+	width: 0px;
+	border-radius: 0px;
+}
+
+.Messages::-webkit-scrollbar-thumb {
+	background-color: #0040ff;
+	outline: 1px solid #eff3f7;
 }

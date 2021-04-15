@@ -9,12 +9,32 @@ function Weather() {
 		fetchData();
 	}, []);
 
-	const fetchData = () => {
+	const fetchData = async () => {
+		navigator.geolocation.getCurrentPosition(function (position) {
+			console.log("Full Position", position);
+			console.log(position.coords.latitude);
+			console.log(position.coords.longitude);
+			const weatherdata = {
+				latitute: position.coords.latitude,
+				longitude: position.coords.longitude,
+			};
+			axios
+				.post(
+					"https://jenny-backend.herokuapp.com/weather",
+					weatherdata
+				) // API CALL
+				.then((response) => {
+					console.log(response.data);
+					setWeather(response.data);
+				})
+				.catch((error) => {
+					console.log("Error: ", error);
+				});
+		});
 		axios
-			.get("https://jenny-backend.herokuapp.com/weather") // API CALL
+			.get("https://ipinfo.io")
 			.then((response) => {
 				console.log(response.data);
-				setWeather(response.data);
 			})
 			.catch((error) => {
 				console.log("Error: ", error);

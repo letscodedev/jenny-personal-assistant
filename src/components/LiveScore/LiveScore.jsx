@@ -19,7 +19,7 @@ function LiveScore() {
 				setInterval(() => {
 					axios
 						.get(
-							`http://localhost:8000/cricket?match_url=${match_url}&match_status=${match_status}`
+							`https://cricket-python-api.herokuapp.com/cricket?match_url=${match_url}&match_status=${match_status}`
 						)
 						.then((response) => {
 							console.log(response.data);
