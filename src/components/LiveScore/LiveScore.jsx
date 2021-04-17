@@ -5,7 +5,6 @@ import "./LiveScore.css";
 function LiveScore() {
 	const [score, setScore] = useState();
 	useEffect(() => {
-		console.log("Just Once");
 		getScore();
 	}, []);
 
@@ -13,7 +12,6 @@ function LiveScore() {
 		axios
 			.get("https://jenny-backend.herokuapp.com/score")
 			.then((response) => {
-				console.log(response.data);
 				var match_status = response.data.match_status;
 				var match_url = response.data.match_url.replace("www", "m");
 				setInterval(() => {
@@ -22,7 +20,6 @@ function LiveScore() {
 							`https://cricket-python-api.herokuapp.com/cricket?match_url=${match_url}&match_status=${match_status}`
 						)
 						.then((response) => {
-							console.log(response.data);
 							setScore(response.data);
 						});
 				}, 10000);

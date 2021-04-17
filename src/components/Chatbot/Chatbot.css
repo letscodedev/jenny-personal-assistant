@@ -1,14 +1,29 @@
 .Chatbox {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-end;
 }
 .message__input {
-    position: relative;
-    padding: 7px 12px;
-    width: 100%;
-    background-color: #f5f6fa;
-    border: none;
-    border-radius: 16px;
-    outline: 0;
+	position: relative;
+	padding: 7px 12px;
+	width: 100%;
+	background-color: #f5f6fa;
+	border: none;
+	border-radius: 16px;
+	outline: 0;
+}
+
+.message__zone {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.message__mic {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 20px;
+	margin-left: 10px;
+	font-size: 1.5rem;
 }

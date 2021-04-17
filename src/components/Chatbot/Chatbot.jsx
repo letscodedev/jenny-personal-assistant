@@ -1,11 +1,21 @@
 import React, { useState } from "react";
 import axios from "axios";
-import ReactHtmlParser from "react-html-parser";
 import "./Chatbot.css";
+import SpeechRecognition, {
+	useSpeechRecognition,
+} from "react-speech-recognition";
+import { ADD_ITEM, REMOVE_ITEM } from "../../reducers/cart";
+import { useSelector, useDispatch } from "react-redux";
 
 import Messages from "./Messages";
 
 function Chatbot() {
+	const dispatch = useDispatch();
+	const cart = useSelector((state) => state.Cart);
+
+	const { transcript, resetTranscript } = useSpeechRecognition();
+	const [isListening, setIsListening] = useState(false);
+	const [selectedProducts, setSelectedProducts] = useState([]);
 	const [responses, setResponses] = useState([]);
 	const [currentMessage, setCurrentMessage] = useState("");
 
@@ -101,9 +111,84 @@ function Chatbot() {
 								datas
 							)
 							.then((response) => {
-								console.log(response.data.reply);
+								console.log(response);
+								var amazonresult = JSON.parse(
+									response.data.reply
+								);
+								console.log(amazonresult);
+								var harsh = (
+									<form
+										name="products"
+										onSubmit={(event) =>
+											amazonHandle(event)
+										}
+									>
+										<div class="main">
+											{amazonresult.map((ele) => {
+												return (
+													<div class="product">
+														<div class="form-check">
+															<input
+																class="form-check-input"
+																type="checkbox"
+																value={
+																	ele.Heading
+																}
+																name={
+																	ele.Heading
+																}
+																onChange={(
+																	event
+																) =>
+																	onChangeHandler(
+																		event
+																	)
+																}
+															/>
+														</div>
+														<div class="image">
+															<img
+																src={
+																	ele.Image_src
+																}
+															/>
+														</div>
+														<div class="text">
+															<div
+																style={{
+																	display:
+																		"flex",
+																	flexDirection:
+																		"column",
+																	justifyContent:
+																		"space-between",
+																}}
+															>
+																<div class="title">
+																	{
+																		ele.Heading
+																	}
+																</div>
+																<div class="price">
+																	${ele.Price}
+																</div>
+															</div>
+														</div>
+													</div>
+												);
+											})}
+										</div>
+										<button
+											type="submit"
+											class="btn btn-outline-primary"
+										>
+											Submit
+										</button>
+									</form>
+								);
+
 								const responseData = {
-									text: ReactHtmlParser(response.data.reply),
+									text: harsh,
 									sender: "Bot",
 								};
 								setResponses((responses) => [
@@ -122,6 +207,23 @@ function Chatbot() {
 			});
 	};
 
+	const onChangeHandler = (event) => {
+		const target = event.target;
+		const value =
+			target.type === "checkbox" ? target.checked : target.value;
+		const name = target.name;
+		if (value) {
+			dispatch(ADD_ITEM(name));
+		} else {
+			dispatch(REMOVE_ITEM(name));
+		}
+	};
+
+	const amazonHandle = (event) => {
+		event.preventDefault();
+		console.log(selectedProducts);
+	};
+
 	const handleMessageChange = (event) => {
 		setCurrentMessage(event.target.value);
 	};
@@ -138,19 +240,77 @@ function Chatbot() {
 		}
 	};
 
+	const handleSubmitAudio = () => {
+		console.log(transcript);
+		const message = {
+			text: transcript,
+			isBot: false,
+		};
+		console.log("inside");
+		setResponses((responses) => [...responses, message]);
+		handleMessageSubmit(message.text);
+	};
+
+	const handleListening = () => {
+		console.log("Listening");
+		setIsListening(true);
+		SpeechRecognition.startListening({
+			continuous: false,
+		});
+	};
+
+	const stopHandle = () => {
+		console.log("Not Listening");
+		setIsListening(false);
+		SpeechRecognition.stopListening();
+		handleSubmitAudio();
+	};
+
 	return (
 		<div className="Chatbot">
 			<div className="chat">
 				<Messages messages={responses} />
 			</div>
-			<input
-				type="text"
-				value={currentMessage}
-				onChange={handleMessageChange}
-				onKeyDown={handleSubmit}
-				placeholder="Say something..."
-				className="message__input"
-			/>
+			<div className="message__zone">
+				{isListening ? (
+					<input
+						type="text"
+						value={transcript}
+						onChange={handleMessageChange}
+						onKeyDown={handleSubmit}
+						placeholder="Listening..."
+						className="message__input"
+					/>
+				) : (
+					<>
+						<input
+							type="text"
+							value={currentMessage}
+							onChange={handleMessageChange}
+							onKeyDown={handleSubmit}
+							placeholder="Say something..."
+							className="message__input"
+						/>
+					</>
+				)}
+				{isListening ? (
+					<div
+						className="message__mic"
+						style={{ color: "red" }}
+						onClick={() => stopHandle()}
+					>
+						<i className="fas fa-microphone"></i>
+					</div>
+				) : (
+					<div
+						className="message__mic"
+						style={{ color: "black" }}
+						onClick={() => handleListening()}
+					>
+						<i className="fas fa-microphone"></i>
+					</div>
+				)}
+			</div>
 		</div>
 	);
 }

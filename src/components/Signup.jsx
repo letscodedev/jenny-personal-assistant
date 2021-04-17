@@ -63,6 +63,8 @@ function Signup() {
 						username: name,
 						email: user_data.email,
 					};
+					console.log("User_data", user_data);
+					console.log(userData);
 					db.collection("users")
 						.doc(credential.user.uid)
 						.set(user)
