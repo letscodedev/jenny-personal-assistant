@@ -53,7 +53,9 @@ function Weather() {
 					</div>
 				</div>
 				<div className="col-md-3 align">
-					<div className="temp__deg">{weather.temparature}°</div>
+					<div className="temp__deg">
+						{Math.round(weather.temparature)}°
+					</div>
 				</div>
 				<div className="col-md-5 align list">
 					<table>
