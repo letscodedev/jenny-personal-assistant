@@ -4,9 +4,10 @@ import { SIGN_IN } from "../reducers/auth";
 import "./Login.css";
 import { Link, Redirect } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { Toast } from "react-bootstrap";
+import { Spinner, Toast } from "react-bootstrap";
 
 function Login() {
+	const [isLoading, setIsLoading] = useState(false);
 	const [error, setError] = useState(false);
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
@@ -36,7 +37,10 @@ function Login() {
 					email: user.email,
 				};
 				localStorage.setItem("user", JSON.stringify(userData));
-				dispatch(SIGN_IN(userData));
+				setIsLoading(true);
+				setTimeout(() => {
+					dispatch(SIGN_IN(userData));
+				}, 2000);
 			})
 			.catch((error) => {
 				setError(true);
@@ -62,7 +66,7 @@ function Login() {
 				}}
 			>
 				<Toast.Body>
-					The email address or password is incorrect. Please retry...
+					The email address or password is incorrect. Please retry.
 				</Toast.Body>
 			</Toast>
 			{isLogged ? (
@@ -119,8 +123,17 @@ function Login() {
 										password
 									);
 								}}
+								disabled={isLoading}
 							>
-								Login
+								{isLoading ? (
+									<Spinner animation="border" role="status">
+										<span className="sr-only">
+											Loading...
+										</span>
+									</Spinner>
+								) : (
+									"Login"
+								)}
 							</button>
 							<p
 								className="forgot-password text-right"

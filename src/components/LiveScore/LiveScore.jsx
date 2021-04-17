@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./LiveScore.css";
+import { Spinner } from "react-bootstrap";
 
 function LiveScore() {
 	const [score, setScore] = useState();
@@ -47,12 +48,8 @@ function LiveScore() {
 									<span>{score.match_status}</span>
 									<div className="imso_mh__live-ind-mask">
 										<div className="imso_mh__live-ind-wrap">
-											<div className="live-ind-fixed" >
-
-											</div>
-											<div className="imso_mh__live-ind-var">
-
-											</div>
+											<div className="live-ind-fixed"></div>
+											<div className="imso_mh__live-ind-var"></div>
 										</div>
 									</div>
 								</div>
@@ -75,12 +72,8 @@ function LiveScore() {
 										<span>{score.match_status}</span>
 										<div className="imso_mh__live-ind-mask">
 											<div className="imso_mh__live-ind-wrap">
-												<div className="live-ind-fixed" >
-
-												</div>
-												<div className="imso_mh__live-ind-var">
-
-												</div>
+												<div className="live-ind-fixed"></div>
+												<div className="imso_mh__live-ind-var"></div>
 											</div>
 										</div>
 									</div>
@@ -100,7 +93,11 @@ function LiveScore() {
 					</div>
 				</>
 			) : (
-				<p>Loading</p>
+				<div style={{ textAlign: "center" }}>
+					<Spinner animation="border" role="status">
+						<span className="sr-only">Loading...</span>
+					</Spinner>
+				</div>
 			)}
 		</div>
 	);

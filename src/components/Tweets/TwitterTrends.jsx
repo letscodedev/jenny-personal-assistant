@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./TwitterTrends.css";
+import { Spinner } from "react-bootstrap";
 
 function TwitterTrends() {
 	const [trends, setTrends] = useState([]);
@@ -38,7 +39,11 @@ function TwitterTrends() {
 					);
 				})
 			) : (
-				<p>Loading</p>
+				<div style={{ textAlign: "center" }}>
+					<Spinner animation="border" role="status">
+						<span className="sr-only">Loading...</span>
+					</Spinner>
+				</div>
 			)}
 		</div>
 	);

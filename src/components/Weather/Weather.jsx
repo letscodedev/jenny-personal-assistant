@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./Weather.css";
+import { Spinner } from "react-bootstrap";
 
 function Weather() {
 	const [weather, setWeather] = useState("");
@@ -43,44 +44,54 @@ function Weather() {
 
 	return (
 		<div className="Weather">
-			<div className="row">
-				<div className="col-md-4 align">
-					<div className="temp__img">
-						<img
-							alt="weather"
-							src={`http://openweathermap.org/img/wn/${weather.icon}@2x.png`}
-						/>
+			{weather ? (
+				<>
+					<div className="row">
+						<div className="col-md-4 align">
+							<div className="temp__img">
+								<img
+									alt="weather"
+									src={`http://openweathermap.org/img/wn/${weather.icon}@2x.png`}
+								/>
+							</div>
+						</div>
+						<div className="col-md-3 align">
+							<div className="temp__deg">
+								{Math.round(weather.temparature)}°
+							</div>
+						</div>
+						<div className="col-md-5 align list">
+							<table>
+								<tr>
+									<td>
+										<i class="fa fa-wind"></i>
+									</td>
+									<td>
+										<span>{weather.wind} k/h</span>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<i class="fas fa-tint"></i>
+									</td>
+									<td>
+										<span>{weather.humidity}%</span>
+									</td>
+								</tr>
+							</table>
+						</div>
 					</div>
-				</div>
-				<div className="col-md-3 align">
-					<div className="temp__deg">
-						{Math.round(weather.temparature)}°
+					<div className="temp__loc">
+						{weather.city}, {weather.state}
 					</div>
+				</>
+			) : (
+				<div style={{ textAlign: "center" }}>
+					<Spinner animation="border" role="status">
+						<span className="sr-only">Loading...</span>
+					</Spinner>
 				</div>
-				<div className="col-md-5 align list">
-					<table>
-						<tr>
-							<td>
-								<i class="fa fa-wind"></i>
-							</td>
-							<td>
-								<span>{weather.wind} k/h</span>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<i class="fas fa-tint"></i>
-							</td>
-							<td>
-								<span>{weather.humidity}%</span>
-							</td>
-						</tr>
-					</table>
-				</div>
-			</div>
-			<div className="temp__loc">
-				{weather.city}, {weather.state}
-			</div>
+			)}
 		</div>
 	);
 }
