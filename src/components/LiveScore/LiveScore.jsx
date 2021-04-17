@@ -17,7 +17,7 @@ function LiveScore() {
 				setInterval(() => {
 					axios
 						.get(
-							`https://cricket-python-api.herokuapp.com/cricket?match_url=${match_url}&match_status=${match_status}`
+							`https://cricket-api-python.herokuapp.com/cricket?match_url=${match_url}&match_status=${match_status}`
 						)
 						.then((response) => {
 							setScore(response.data);
@@ -42,14 +42,21 @@ function LiveScore() {
 								>
 									{score.title.split(",")[0]}
 								</div>
-								<div
-									className="match_status"
-									style={{
-										marginBottom: "10px",
-									}}
-								>
+
+								<div className="match_status">
 									<span>{score.match_status}</span>
+									<div className="imso_mh__live-ind-mask">
+										<div className="imso_mh__live-ind-wrap">
+											<div className="live-ind-fixed" >
+
+											</div>
+											<div className="imso_mh__live-ind-var">
+
+											</div>
+										</div>
+									</div>
 								</div>
+
 								{score.update === "No Data Found" ? null : (
 									<div>{score.update}</div>
 								)}
@@ -66,6 +73,16 @@ function LiveScore() {
 									</div>
 									<div className="match_status">
 										<span>{score.match_status}</span>
+										<div className="imso_mh__live-ind-mask">
+											<div className="imso_mh__live-ind-wrap">
+												<div className="live-ind-fixed" >
+
+												</div>
+												<div className="imso_mh__live-ind-var">
+
+												</div>
+											</div>
+										</div>
 									</div>
 									<div className="teamTwo">
 										<span style={{ fontWeight: "bold" }}>
