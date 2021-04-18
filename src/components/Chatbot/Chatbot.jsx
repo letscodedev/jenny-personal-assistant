@@ -178,7 +178,7 @@ function Chatbot() {
     event.preventDefault();
     console.log("IsLogged ", isLogged.email);
     const data = {
-      email: isLogged.email,
+      email: isLogged.payload.email,
     };
     setTimeout(() => {
       axios
@@ -188,8 +188,11 @@ function Chatbot() {
           console.log("Email address", data.email);
           var display_data = (
             <div>
-              <h3>{res.data.msg}</h3>
-              <img src={res.data.image_url}></img>
+              {res.data.msg}
+              <img
+                src={res.data.image_url}
+                style={{ width: "100%", height: "100%", marginTop: "10px" }}
+              ></img>
             </div>
           );
           const responseData = {
@@ -203,7 +206,7 @@ function Chatbot() {
         .catch((error) => {
           console.log(error.message);
         });
-    }, 5000);
+    });
   };
 
   const handleMessageChange = (event) => {
