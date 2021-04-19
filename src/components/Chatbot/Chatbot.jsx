@@ -189,10 +189,12 @@ function Chatbot() {
           var display_data = (
             <div>
               {res.data.msg}
-              <img
-                src={res.data.image_url}
-                style={{ width: "100%", height: "100%", marginTop: "10px" }}
-              ></img>
+              <a href={res.data.image_url} target="_blank">
+                <img
+                  src={res.data.image_url}
+                  style={{ width: "100%", height: "100%", marginTop: "10px" }}
+                ></img>
+              </a>
             </div>
           );
           const responseData = {
