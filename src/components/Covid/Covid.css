@@ -1,0 +1,25 @@
+.covid {
+	display: flex;
+	justify-content: space-between;
+	text-align: center;
+}
+
+.covid__status {
+	font-weight: bold;
+}
+
+.covid__number {
+	font-weight: bolder;
+}
+
+.active {
+	color: #ff073a;
+}
+
+.recovered {
+	color: #28a745;
+}
+
+.deaths {
+	color: #6c757d;
+}

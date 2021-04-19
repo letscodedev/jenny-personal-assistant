@@ -82,7 +82,8 @@ function Weather() {
 						</div>
 					</div>
 					<div className="temp__loc">
-						{weather.city}, {weather.state}
+						{weather.city}
+						{weather.state === "" ? `, ${weather.state}` : null}
 					</div>
 				</>
 			) : (
