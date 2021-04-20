@@ -39,7 +39,7 @@ function News() {
 					);
 				})
 			) : (
-				<div style={{ textAlign: "center" }}>
+				<div style={{ textAlign: "center", height: "50px" }}>
 					<Spinner animation="border" role="status">
 						<span className="sr-only">Loading...</span>
 					</Spinner>

@@ -115,7 +115,7 @@ function Home() {
 			password: companyPassword,
 		};
 		db.collection("users")
-			.doc(isLogged.payload.userID)
+			.doc(isLogged.payload.uid)
 			.get()
 			.then((doc) => {
 				var accountsArray = doc.data().accounts;
@@ -123,7 +123,7 @@ function Home() {
 				accountsArray.push(companyDetails);
 				console.log(accountsArray);
 				db.collection("users")
-					.doc(isLogged.payload.userID)
+					.doc(isLogged.payload.uid)
 					.set({ accounts: accountsArray }, { merge: true })
 					.catch((error) => {
 						console.log(error);
@@ -137,13 +137,13 @@ function Home() {
 
 	const deleteAccount = (id) => {
 		db.collection("users")
-			.doc(isLogged.payload.userID)
+			.doc(isLogged.payload.uid)
 			.get()
 			.then((doc) => {
 				var accountsArray = doc.data().accounts;
 				var newArr = accountsArray.filter((ele) => ele.id !== id);
 				db.collection("users")
-					.doc(isLogged.payload.userID)
+					.doc(isLogged.payload.uid)
 					.set({ accounts: newArr }, { merge: true })
 					.catch((error) => {
 						console.log(error);
@@ -212,8 +212,7 @@ function Home() {
 										style={{ padding: "1.4rem" }}
 									>
 										<h3>
-											{isLogged.payload.displayName ||
-												isLogged.payload.username}
+											{isLogged.payload.displayName}
 										</h3>
 										{/* <h3>Devarsh Panchal</h3> */}
 									</div>
@@ -507,7 +506,7 @@ function Home() {
 								<Modal.Footer>
 									<Button
 										variant="primary"
-										onClick={handlePin}
+										onClick={() => handlePin()}
 									>
 										Check
 									</Button>
