@@ -176,7 +176,7 @@ function Chatbot() {
 
   const amazonHandle = (event) => {
     event.preventDefault();
-    console.log("IsLogged ", isLogged.email);
+    console.log("IsLogged ", isLogged.payload.email);
     const data = {
       email: isLogged.payload.email,
     };
@@ -208,7 +208,7 @@ function Chatbot() {
         .catch((error) => {
           console.log(error.message);
         });
-    });
+    }, 10000);
   };
 
   const handleMessageChange = (event) => {
