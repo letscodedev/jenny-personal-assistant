@@ -32,8 +32,8 @@ function Login() {
 				var user = userCredential.user;
 				console.log(user);
 				const userData = {
-					userID: user.uid,
-					username: user.displayName,
+					uid: user.uid,
+					displayName: user.displayName,
 					email: user.email,
 				};
 				localStorage.setItem("user", JSON.stringify(userData));
