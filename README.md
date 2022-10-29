@@ -4,4 +4,4 @@ The aim of our project is to develop an intelligent virtual assistant which is a
 
 So, it is a personal and smart virtual assistant for desktop or mobile that will automate other applications on your behalf and relieve the user from mundane tasks. It will be directed towards completing specific tasks such as sending an email, buying a product, ordering food etc. for such tasks our assistant will automate the process of form filling, traversing from one page to another while maintaining a conversational experience with the user.
 
-Jenny - *your personal assistant* - [*https://jenny-chat-with.us/*](https://jenny-chat-with.us/)
+Jenny - *your personal assistant* - [*https://jenny-chat-with.us/*](https://jenny-chat-with.us/) | [*https://jenny-4debf.web.app/*](https://jenny-4debf.web.app/)
